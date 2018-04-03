@@ -19,13 +19,14 @@
 #include <ctime>
 #include <memory>
 #include <mutex>
-
-#include "btree/btree_map.h"
+#include <unordered_map>
 
 #include "Reservoir.h"
 #include "WeightedSnapshot.h"
 
 namespace cppmetrics {
+
+class Clock;
 
 class ExponentiallyDecayingReservoir : public Reservoir
 {
@@ -33,7 +34,7 @@ class ExponentiallyDecayingReservoir : public Reservoir
   static const double kDefaultAlpha;
 
 public:
-    ExponentiallyDecayingReservoir(size_t size = kDefaultSize, double alpha = kDefaultAlpha);
+    ExponentiallyDecayingReservoir(size_t size = kDefaultSize, double alpha = kDefaultAlpha, Clock* clock = nullptr);
     ExponentiallyDecayingReservoir(ExponentiallyDecayingReservoir&&);
 
     ExponentiallyDecayingReservoir& operator=(ExponentiallyDecayingReservoir&&);
@@ -51,11 +52,12 @@ private:
 private:
     std::mutex m_mutex;
     std::atomic_long m_count;
+    Clock* m_clock;
     std::time_t m_start;
     std::time_t m_next_rescale_time;
     size_t m_size;
     double m_alpha;
-    btree::btree_map<double, WeightedSample> m_samples;
+    std::unordered_map<double, WeightedSample> m_samples;
 };
 
 }

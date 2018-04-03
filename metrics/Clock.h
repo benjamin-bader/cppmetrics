@@ -23,6 +23,7 @@ class Clock
 {
 public:
   virtual std::chrono::nanoseconds tick();
+  virtual time_t now_as_time_t();
 };
 
 Clock* GetDefaultClock();

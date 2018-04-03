@@ -28,6 +28,12 @@ std::chrono::nanoseconds Clock::tick()
   return std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch());
 }
 
+time_t Clock::now_as_time_t()
+{
+  auto now = std::chrono::system_clock::now();
+  return std::chrono::system_clock::to_time_t(now);
+}
+
 Clock* GetDefaultClock()
 {
   return gDefaultClock;

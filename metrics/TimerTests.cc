@@ -14,12 +14,27 @@
 
 #include "Timer.h"
 
+#include <chrono>
+
 #include "gtest/gtest.h"
 
 #include "ExponentiallyDecayingReservoir.h"
+#include "Clock.h"
 #include "ManualClock.h"
 
 namespace cppmetrics {
+
+class SelfWindingClock : public Clock
+{
+public:
+  std::chrono::nanoseconds tick() override
+  {
+    return m_now += std::chrono::milliseconds(50);
+  }
+
+private:
+  std::chrono::nanoseconds m_now;
+};
 
 TEST(TimerTests, starts_with_zero_rates_and_count)
 {

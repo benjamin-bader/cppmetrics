@@ -25,9 +25,21 @@ std::chrono::nanoseconds ManualClock::tick()
   return m_now;
 }
 
+time_t ManualClock::now_as_time_t()
+{
+  auto now = std::chrono::duration_cast<std::chrono::system_clock::duration>(m_now);
+  std::chrono::system_clock::time_point tp(now);
+  return std::chrono::system_clock::to_time_t(tp);
+}
+
 void ManualClock::add_nanos(long long nanos)
 {
   m_now += std::chrono::nanoseconds(nanos);
+}
+
+void ManualClock::add_millis(int millis)
+{
+  m_now += std::chrono::milliseconds(millis);
 }
 
 void ManualClock::add_seconds(int seconds)

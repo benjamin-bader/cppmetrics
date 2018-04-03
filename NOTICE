@@ -2,12 +2,6 @@ cppmetrics is copyright 2018 Benjamin Bader.
 
 Portions of cppmetrics make use of the following open-source projects:
 
-C++ B-Tree
-----------
-STL-compatible map implementation based on B-trees
-Copyright Google
-Apache 2.0 License
-
 Dropwizard Metrics
 ------------------
 JVM metrics; cppmetrics is a port of this codebase.

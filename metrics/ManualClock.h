@@ -25,8 +25,10 @@ public:
   ManualClock(const std::chrono::nanoseconds& now = std::chrono::nanoseconds(0));
 
   std::chrono::nanoseconds tick() override;
+  time_t now_as_time_t() override;
 
   void add_nanos(long long nanos);
+  void add_millis(int millis);
   void add_seconds(int seconds);
   void add_minutes(int minutes);
   void add_hours(int hours);

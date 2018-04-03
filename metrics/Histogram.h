@@ -19,9 +19,10 @@
 #include <memory>
 
 #include "Reservoir.h"
-#include "Snapshot.h"
 
 namespace cppmetrics {
+
+class Snapshot;
 
 class Histogram
 {

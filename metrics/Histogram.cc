@@ -16,6 +16,8 @@
 
 #include <utility>
 
+#include "Snapshot.h"
+
 namespace cppmetrics {
 
 Histogram::Histogram(std::unique_ptr<Reservoir>&& reservoir)
