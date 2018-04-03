@@ -20,7 +20,7 @@
 
 namespace cppmetrics {
 
-void AssertSnapshotValuesBetween(const std::shared_ptr<Snapshot>& snapshot, long min, long max)
+inline void AssertSnapshotValuesBetween(const std::shared_ptr<Snapshot>& snapshot, long min, long max)
 {
   for (long value : snapshot->get_values())
   {
@@ -81,8 +81,9 @@ TEST(EDRTest, long_inactivity_does_not_corrupt_state)
     clock.add_millis(100);
   }
 
-  EXPECT_EQ(10, reservoir.get_snapshot()->size());
-  AssertSnapshotValuesBetween(reservoir.get_snapshot(), 3000, 4000);
+  auto snapshot = reservoir.get_snapshot();
+  EXPECT_EQ(10, snapshot->size());
+  AssertSnapshotValuesBetween(snapshot, 3000, 4000);
 }
 
 TEST(EDRTest, snapshotting_after_long_inactivity_rescales)

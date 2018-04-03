@@ -19,7 +19,7 @@
 #include <ctime>
 #include <memory>
 #include <mutex>
-#include <unordered_map>
+#include <map>
 
 #include "Reservoir.h"
 #include "WeightedSnapshot.h"
@@ -57,7 +57,7 @@ private:
     std::time_t m_next_rescale_time;
     size_t m_size;
     double m_alpha;
-    std::unordered_map<double, WeightedSample> m_samples;
+    std::map<double, WeightedSample> m_samples;
 };
 
 }
