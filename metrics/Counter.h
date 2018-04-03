@@ -15,11 +15,27 @@
 #ifndef CPPMETRICS_METRICS_COUNTER_H
 #define CPPMETRICS_METRICS_COUNTER_H
 
+#include <atomic>
+
 namespace cppmetrics {
 
 class Counter
 {
+public:
+  Counter();
+  Counter(const Counter&);
+  Counter(Counter&&);
 
+  Counter& operator=(const Counter&);
+  Counter& operator=(Counter&&);
+
+  void inc(long n = 1);
+  void dec(long n = 1);
+
+  long get_count() const noexcept;
+
+private:
+  std::atomic_long m_count;
 };
 
 } // namespace cppmetrics

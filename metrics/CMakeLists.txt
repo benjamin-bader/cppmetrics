@@ -53,6 +53,12 @@ add_library(metrics STATIC ${METRICS_SOURCES})
 target_include_directories(metrics PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 cppmetrics_test(
+  TARGET counter
+  SOURCES CounterTests.cc ${METRICS_TEST_SOURCES}
+  PUBLIC_LIBRARIES metrics
+)
+
+cppmetrics_test(
   TARGET edr
   SOURCES ExponentiallyDecayingReservoirTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
