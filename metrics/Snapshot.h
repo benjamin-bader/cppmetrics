@@ -15,6 +15,7 @@
 #ifndef CPPMETRICS_METRICS_SNAPSHOT_H
 #define CPPMETRICS_METRICS_SNAPSHOT_H
 
+#include <cstddef>
 #include <vector>
 
 namespace cppmetrics {
@@ -26,7 +27,7 @@ public:
 
   virtual double get_value(double quantile) const = 0;
 
-  virtual size_t size() const = 0;
+  virtual std::size_t size() const = 0;
   virtual long get_min() const = 0;
   virtual double get_mean() const = 0;
   virtual long get_max() const = 0;

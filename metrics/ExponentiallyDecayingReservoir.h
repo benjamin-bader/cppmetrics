@@ -16,6 +16,7 @@
 #define CPPMETRICS_METRICS_EXPONENTIALLYDECAYINGRESERVOIR_H
 
 #include <atomic>
+#include <cstddef>
 #include <ctime>
 #include <memory>
 #include <mutex>
@@ -30,17 +31,17 @@ class Clock;
 
 class ExponentiallyDecayingReservoir : public Reservoir
 {
-  static const size_t kDefaultSize;
+  static const std::size_t kDefaultSize;
   static const double kDefaultAlpha;
 
 public:
-    ExponentiallyDecayingReservoir(size_t size = kDefaultSize, double alpha = kDefaultAlpha, Clock* clock = nullptr);
+    ExponentiallyDecayingReservoir(std::size_t size = kDefaultSize, double alpha = kDefaultAlpha, Clock* clock = nullptr);
     ExponentiallyDecayingReservoir(ExponentiallyDecayingReservoir&&);
 
     ExponentiallyDecayingReservoir& operator=(ExponentiallyDecayingReservoir&&);
 
 public:
-    size_t size() const override;
+    std::size_t size() const override;
     void update(long value) override;
 
     std::shared_ptr<Snapshot> get_snapshot() override;
@@ -55,7 +56,7 @@ private:
     Clock* m_clock;
     std::time_t m_start;
     std::time_t m_next_rescale_time;
-    size_t m_size;
+    std::size_t m_size;
     double m_alpha;
     std::map<double, WeightedSample> m_samples;
 };

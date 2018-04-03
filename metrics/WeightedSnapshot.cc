@@ -126,7 +126,7 @@ double WeightedSnapshot::get_value(double quantile) const
   return lb->value;
 }
 
-size_t WeightedSnapshot::size() const
+std::size_t WeightedSnapshot::size() const
 {
   return m_elements.size();
 }

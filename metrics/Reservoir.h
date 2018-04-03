@@ -15,6 +15,7 @@
 #ifndef CPPMETRICS_METRICS_RESERVOIR_H
 #define CPPMETRICS_METRICS_RESERVOIR_H
 
+#include <cstddef>
 #include <memory>
 
 namespace cppmetrics {
@@ -26,7 +27,7 @@ class Reservoir
 public:
     virtual ~Reservoir() = default;
 
-    virtual size_t size() const = 0;
+    virtual std::size_t size() const = 0;
     virtual void update(long value) = 0;
     virtual std::shared_ptr<Snapshot> get_snapshot() = 0;
 };

@@ -45,10 +45,10 @@ thread_local std::uniform_real_distribution<> dist;
 
 } // namespace
 
-constexpr const size_t ExponentiallyDecayingReservoir::kDefaultSize = 1028;
+constexpr const std::size_t ExponentiallyDecayingReservoir::kDefaultSize = 1028;
 constexpr const double ExponentiallyDecayingReservoir::kDefaultAlpha = 0.99;
 
-ExponentiallyDecayingReservoir::ExponentiallyDecayingReservoir(size_t size, double alpha, Clock* clock)
+ExponentiallyDecayingReservoir::ExponentiallyDecayingReservoir(std::size_t size, double alpha, Clock* clock)
     : m_mutex()
     , m_count(0)
     , m_clock(clock != nullptr ? clock : GetDefaultClock())
@@ -103,9 +103,9 @@ ExponentiallyDecayingReservoir& ExponentiallyDecayingReservoir::operator=(Expone
   return *this;
 }
 
-size_t ExponentiallyDecayingReservoir::size() const
+std::size_t ExponentiallyDecayingReservoir::size() const
 {
-  return std::min(m_size, static_cast<size_t>(m_count.load()));
+  return std::min(m_size, static_cast<std::size_t>(m_count.load()));
 }
 
 void ExponentiallyDecayingReservoir::update(long value)

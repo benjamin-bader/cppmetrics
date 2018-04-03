@@ -15,6 +15,7 @@
 #ifndef CPPMETRICS_METRICS_WEIGHTEDSNAPSHOT_H
 #define CPPMETRICS_METRICS_WEIGHTEDSNAPSHOT_H
 
+#include <cstddef>
 #include <vector>
 
 #include "Snapshot.h"
@@ -24,7 +25,7 @@ namespace cppmetrics {
 class WeightedSample
 {
 public:
-    WeightedSample(); // for btree only
+    WeightedSample(); // for std::map
     WeightedSample(long value, double weight);
 
     WeightedSample(const WeightedSample&);
@@ -68,7 +69,7 @@ public:
 public:
   double get_value(double quantile) const override;
 
-  size_t size() const override;
+  std::size_t size() const override;
   long get_min() const override;
   double get_mean() const override;
   long get_max() const override;
