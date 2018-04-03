@@ -15,6 +15,8 @@
 #ifndef CPPMETRICS_METRICS_SNAPSHOT_H
 #define CPPMETRICS_METRICS_SNAPSHOT_H
 
+#include <vector>
+
 namespace cppmetrics {
 
 class Snapshot
