@@ -12,3 +12,7 @@ All your favorite metrics are here:
 
 -------
 * OK, there is a dependency on Google's C++ B-Tree, but we include all the header files.
+
+
+-------
+Copyright 2018 Benjamin Bader

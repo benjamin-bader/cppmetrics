@@ -19,7 +19,6 @@ set(METRICS_HEADERS
     Gauge.h
     Histogram.h
     Meter.h
-    Metric.h
     Registry.h
     Reporter.h
     Reservoir.h

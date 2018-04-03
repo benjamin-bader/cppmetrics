@@ -5,8 +5,6 @@
 #include <map>
 #include <string>
 
-#include "Metric.h"
-
 namespace cppmetrics {
 
 class Gauge
