@@ -71,6 +71,12 @@ cppmetrics_test(
 )
 
 cppmetrics_test(
+  TARGET manual_clock
+  SOURCES ManualClockTests.cc ${METRICS_TEST_SOURCES}
+  PUBLIC_LIBRARIES metrics
+)
+
+cppmetrics_test(
   TARGET meter
   SOURCES MeterTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics

@@ -50,7 +50,7 @@ TEST(EDRTest, sample_100_of_1000)
   }
 }
 
-TEST(EDRTest, long_inactivity_does_not_corrupt_state)
+TEST(EDRTest, long_inactivity_does_not_corrupt_sampling_state)
 {
   ManualClock clock;
   ExponentiallyDecayingReservoir reservoir(10, 0.015, &clock);
@@ -164,6 +164,34 @@ TEST(EDRTest, spot_fall)
   // Mode 2 should predominate after 10 minutes.
   auto snapshot = reservoir.get_snapshot();
   EXPECT_EQ(178, snapshot->get_median());
+}
+
+TEST(EDRTest, quantiles_are_based_on_weights)
+{
+  ManualClock clock;
+  ExponentiallyDecayingReservoir reservoir(1000, 0.015, &clock);
+
+  for (int i = 0; i < 40; ++i)
+  {
+    reservoir.update(177);
+  }
+
+  clock.add_minutes(2);
+
+  for (int i = 0; i < 10; ++i)
+  {
+    reservoir.update(9999);
+  }
+
+  // The first 40 items have a weight of 1
+  // The next 10 have a weight of approximately 6.
+  // The distribution is 40 vs 60, not 40 vs 10.
+  auto snapshot = reservoir.get_snapshot();
+  EXPECT_EQ(50, snapshot->size());
+
+  EXPECT_EQ(177,  snapshot->get_value(0.35));
+  EXPECT_EQ(9999, snapshot->get_median());
+  EXPECT_EQ(9999, snapshot->get_p75());
 }
 
 }
