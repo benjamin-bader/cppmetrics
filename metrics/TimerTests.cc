@@ -74,7 +74,7 @@ TEST(TimerTests, times_callables)
   ManualClock clock;
   Timer timer(std::make_unique<ExponentiallyDecayingReservoir>(), &clock);
 
-  auto result = timer.time([&]() {
+  std::string result = timer.time([&]() {
     clock.add_minutes(1);
     return "foo";
   });

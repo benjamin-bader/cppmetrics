@@ -33,6 +33,6 @@ function(cppmetrics_test)
             PRIVATE ${GMOCK_INCLUDE_DIRS} ${GTEST_INCLUDE_DIRS}
         )
 
-        add_test(${_NAME}_test ${_NAME}_test_exe)
+        add_test(${_NAME}_test ${_NAME}_test_exe --gtest_output=xml:${_NAME}_test_result.xml)
     endif(BUILD_TESTS)
 endfunction(cppmetrics_test)
