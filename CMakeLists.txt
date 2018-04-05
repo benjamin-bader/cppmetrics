@@ -24,7 +24,6 @@ option(BUILD_TESTS "Build unit tests" OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-include(GNUInstallDirs)
 include(MetricHelpers)
 
 if(BUILD_TESTS)
