@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Meter.h"
+#include "metrics/Meter.h"
 
 #include "gtest/gtest.h"
 

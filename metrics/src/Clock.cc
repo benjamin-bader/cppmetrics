@@ -12,19 +12,31 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Registry.h"
-
-#include "gtest/gtest.h"
+#include "metrics/Clock.h"
 
 namespace cppmetrics {
 
-TEST(RegistryTest, foo)
+namespace {
+
+Clock* gDefaultClock = new Clock;
+
+}
+
+std::chrono::nanoseconds Clock::tick()
 {
-  Registry registry;
+  auto now = std::chrono::system_clock::now();
+  return std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch());
+}
 
-  registry.histogram("foo");
+time_t Clock::now_as_time_t()
+{
+  auto now = std::chrono::system_clock::now();
+  return std::chrono::system_clock::to_time_t(now);
+}
 
-  EXPECT_EQ(1, registry.get_histograms().size());
+Clock* GetDefaultClock()
+{
+  return gDefaultClock;
 }
 
 }

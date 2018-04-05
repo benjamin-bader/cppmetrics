@@ -12,31 +12,29 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#ifndef CPPMETRICS_METRICS_HISTOGRAM_H
-#define CPPMETRICS_METRICS_HISTOGRAM_H
+#ifndef CPPMETRICS_METRICS_MANUALCLOCK_H
+#define CPPMETRICS_METRICS_MANUALCLOCK_H
 
-#include <atomic>
-#include <memory>
-
-#include "Reservoir.h"
+#include "metrics/Clock.h"
 
 namespace cppmetrics {
 
-class Snapshot;
-
-class Histogram
+class ManualClock : public Clock
 {
 public:
-  Histogram(std::unique_ptr<Reservoir>&& reservoir);
+  ManualClock(const std::chrono::nanoseconds& now = std::chrono::nanoseconds(0));
 
-  void update(long n);
+  std::chrono::nanoseconds tick() override;
+  time_t now_as_time_t() override;
 
-  long get_count() const;
-  std::shared_ptr<Snapshot> get_snapshot();
+  void add_nanos(long long nanos);
+  void add_millis(int millis);
+  void add_seconds(int seconds);
+  void add_minutes(int minutes);
+  void add_hours(int hours);
 
 private:
-  std::atomic_long m_counter;
-  std::unique_ptr<Reservoir> m_reservoir;
+  std::chrono::nanoseconds m_now;
 };
 
 }

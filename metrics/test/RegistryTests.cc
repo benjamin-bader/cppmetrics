@@ -12,33 +12,19 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Histogram.h"
+#include "metrics/Registry.h"
 
-#include <utility>
-
-#include "Snapshot.h"
+#include "gtest/gtest.h"
 
 namespace cppmetrics {
 
-Histogram::Histogram(std::unique_ptr<Reservoir>&& reservoir)
-    : m_counter(0)
-    , m_reservoir(std::move(reservoir))
-{}
-
-void Histogram::update(long n)
+TEST(RegistryTest, foo)
 {
-  m_counter += n;
-  m_reservoir->update(n);
-}
+  Registry registry;
 
-long Histogram::get_count() const
-{
-  return m_counter.load();
-}
+  registry.histogram("foo");
 
-std::shared_ptr<Snapshot> Histogram::get_snapshot()
-{
-  return m_reservoir->get_snapshot();
+  EXPECT_EQ(1, registry.get_histograms().size());
 }
 
 }

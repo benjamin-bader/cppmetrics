@@ -12,96 +12,107 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+project(metrics VERSION 0.1 LANGUAGES CXX)
+
 set(METRICS_SOURCES
-    Clock.cc
-    Counter.cc
-    ExponentiallyDecayingReservoir.cc
-    EWMA.cc
-    Gauge.cc
-    Histogram.cc
-    Meter.cc
-    Registry.cc
-    Timer.cc
-    WeightedSnapshot.cc
+    src/Clock.cc
+    src/Counter.cc
+    src/ExponentiallyDecayingReservoir.cc
+    src/EWMA.cc
+    src/Gauge.cc
+    src/Histogram.cc
+    src/Meter.cc
+    src/Registry.cc
+    src/Timer.cc
+    src/WeightedSnapshot.cc
 )
-
-set(METRICS_HEADERS
-    Clock.h
-    Counter.h
-    ExponentiallyDecayingReservoir.h
-    EWMA.h
-    Gauge.h
-    Histogram.h
-    Meter.h
-    Registry.h
-    Reporter.h
-    Reservoir.h
-    Snapshot.h
-    Timer.h
-    WeightedSnapshot.h
-)
-
 set(METRICS_TEST_SOURCES
-    ManualClock.cc
+    test/ManualClock.cc
 )
 
-set(METRICS_TEST_HEADERS
-    ManualClock.h
+add_library(metrics SHARED ${METRICS_SOURCES})
+add_library(metrics_static STATIC ${METRICS_SOURCES})
+
+target_include_directories(metrics
+  PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+
+  PRIVATE
+  src
 )
 
-add_library(metrics STATIC ${METRICS_SOURCES})
-target_include_directories(metrics PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(metrics_static
+  PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+
+  PRIVATE
+  src
+)
+
+install(TARGETS metrics metrics_static EXPORT MetricsLibraryConfig
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+install(EXPORT MetricsLibraryConfig DESTINATION share/MetricsLibrary/cmake)
+
+export(TARGETS metrics metrics_static FILE MetricsLibraryConfig.cmake)
 
 cppmetrics_test(
   TARGET counter
-  SOURCES CounterTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/CounterTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET edr
-  SOURCES ExponentiallyDecayingReservoirTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/ExponentiallyDecayingReservoirTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET ewma
-  SOURCES EWMATests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/EWMATests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET histogram
-  SOURCES HistogramTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/HistogramTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET manual_clock
-  SOURCES ManualClockTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/ManualClockTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET meter
-  SOURCES MeterTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/MeterTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET registry
-  SOURCES RegistryTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/RegistryTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET snapshot
-  SOURCES WeightedSnapshotTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/WeightedSnapshotTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
 
 cppmetrics_test(
   TARGET timer
-  SOURCES TimerTests.cc ${METRICS_TEST_SOURCES}
+  SOURCES test/TimerTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics
 )
