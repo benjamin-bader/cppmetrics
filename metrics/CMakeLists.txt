@@ -70,53 +70,53 @@ export(TARGETS metrics metrics_static FILE MetricsLibraryConfig.cmake)
 cppmetrics_test(
   TARGET counter
   SOURCES test/CounterTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET edr
   SOURCES test/ExponentiallyDecayingReservoirTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET ewma
   SOURCES test/EWMATests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET histogram
   SOURCES test/HistogramTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET manual_clock
   SOURCES test/ManualClockTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET meter
   SOURCES test/MeterTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET registry
   SOURCES test/RegistryTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET snapshot
   SOURCES test/WeightedSnapshotTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
 
 cppmetrics_test(
   TARGET timer
   SOURCES test/TimerTests.cc ${METRICS_TEST_SOURCES}
-  PUBLIC_LIBRARIES metrics
+  PUBLIC_LIBRARIES metrics_static
 )
