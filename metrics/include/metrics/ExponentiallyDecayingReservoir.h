@@ -22,8 +22,8 @@
 #include <mutex>
 #include <map>
 
-#include "metrics/Reservoir.h"
-#include "metrics/WeightedSnapshot.h"
+#include <metrics/Reservoir.h>
+#include <metrics/WeightedSnapshot.h>
 
 namespace cppmetrics {
 

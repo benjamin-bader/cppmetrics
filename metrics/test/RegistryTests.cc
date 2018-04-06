@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "metrics/Registry.h"
+#include <metrics/Registry.h>
 
 #include "gtest/gtest.h"
 

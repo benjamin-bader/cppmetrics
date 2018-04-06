@@ -15,7 +15,7 @@
 #ifndef CPPMETRICS_METRICS_MANUALCLOCK_H
 #define CPPMETRICS_METRICS_MANUALCLOCK_H
 
-#include "metrics/Clock.h"
+#include <metrics/Clock.h>
 
 namespace cppmetrics {
 

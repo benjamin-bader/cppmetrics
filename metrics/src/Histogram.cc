@@ -12,11 +12,11 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "metrics/Histogram.h"
+#include <metrics/Histogram.h>
 
 #include <utility>
 
-#include "metrics/Snapshot.h"
+#include <metrics/Snapshot.h>
 
 namespace cppmetrics {
 

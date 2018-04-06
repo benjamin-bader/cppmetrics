@@ -16,7 +16,7 @@
 
 #include <utility>
 
-#include "metrics/ExponentiallyDecayingReservoir.h"
+#include <metrics/ExponentiallyDecayingReservoir.h>
 
 namespace cppmetrics {
 

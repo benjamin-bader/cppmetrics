@@ -18,7 +18,7 @@
 #include <atomic>
 #include <memory>
 
-#include "metrics/Reservoir.h"
+#include <metrics/Reservoir.h>
 
 namespace cppmetrics {
 

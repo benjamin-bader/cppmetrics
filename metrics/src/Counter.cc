@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "metrics/Counter.h"
+#include <metrics/Counter.h>
 
 namespace cppmetrics {
 
