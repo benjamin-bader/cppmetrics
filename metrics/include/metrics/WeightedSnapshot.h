@@ -18,7 +18,7 @@
 #include <cstddef>
 #include <vector>
 
-#include "Snapshot.h"
+#include <metrics/Snapshot.h>
 
 namespace cppmetrics {
 

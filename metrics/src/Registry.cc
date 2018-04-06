@@ -12,14 +12,15 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Registry.h"
 
-#include "Counter.h"
-#include "ExponentiallyDecayingReservoir.h"
-#include "Gauge.h"
-#include "Meter.h"
-#include "Histogram.h"
-#include "Timer.h"
+#include <metrics/Registry.h>
+
+#include <metrics/Counter.h>
+#include <metrics/ExponentiallyDecayingReservoir.h>
+#include <metrics/Gauge.h>
+#include <metrics/Meter.h>
+#include <metrics/Histogram.h>
+#include <metrics/Timer.h>
 
 namespace cppmetrics {
 

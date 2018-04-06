@@ -12,23 +12,31 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Gauge.h"
+#include <metrics/Clock.h>
 
 namespace cppmetrics {
 
-Gauge::Gauge()
-{
+namespace {
+
+Clock* gDefaultClock = new Clock;
 
 }
 
-void Gauge::set(long value)
+std::chrono::nanoseconds Clock::tick()
 {
-  m_value.store(value);
+  auto now = std::chrono::system_clock::now();
+  return std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch());
 }
 
-long Gauge::get()
+time_t Clock::now_as_time_t()
 {
-  return m_value.load();
+  auto now = std::chrono::system_clock::now();
+  return std::chrono::system_clock::to_time_t(now);
+}
+
+Clock* GetDefaultClock()
+{
+  return gDefaultClock;
 }
 
 }

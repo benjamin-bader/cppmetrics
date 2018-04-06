@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "ExponentiallyDecayingReservoir.h"
+#include <metrics/ExponentiallyDecayingReservoir.h>
 
 #include <algorithm>
 #include <atomic>
@@ -23,7 +23,7 @@
 #include <random>
 #include <unordered_set>
 
-#include "Clock.h"
+#include <metrics/Clock.h>
 
 using namespace std::chrono_literals;
 

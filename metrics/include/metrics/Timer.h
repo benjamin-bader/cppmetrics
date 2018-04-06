@@ -18,10 +18,10 @@
 #include <chrono>
 #include <memory>
 
-#include "Clock.h"
-#include "Histogram.h"
-#include "Meter.h"
-#include "Reservoir.h"
+#include <metrics/Clock.h>
+#include <metrics/Histogram.h>
+#include <metrics/Meter.h>
+#include <metrics/Reservoir.h>
 
 namespace cppmetrics {
 

@@ -12,33 +12,27 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Histogram.h"
+#ifndef CPPMETRICS_GAUGE_H
+#define CPPMETRICS_GAUGE_H
 
-#include <utility>
-
-#include "Snapshot.h"
+#include <atomic>
+#include <map>
+#include <string>
 
 namespace cppmetrics {
 
-Histogram::Histogram(std::unique_ptr<Reservoir>&& reservoir)
-    : m_counter(0)
-    , m_reservoir(std::move(reservoir))
-{}
-
-void Histogram::update(long n)
+class Gauge
 {
-  m_counter += n;
-  m_reservoir->update(n);
-}
+public:
+  Gauge();
 
-long Histogram::get_count() const
-{
-  return m_counter.load();
-}
+  void set(long value);
+  long get();
 
-std::shared_ptr<Snapshot> Histogram::get_snapshot()
-{
-  return m_reservoir->get_snapshot();
-}
+private:
+  std::atomic_long m_value;
+};
 
 }
+
+#endif

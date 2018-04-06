@@ -12,19 +12,14 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Registry.h"
+#ifndef CPPMETRICS_METRICS_METRICS_H
+#define CPPMETRICS_METRICS_METRICS_H
 
-#include "gtest/gtest.h"
+#include <metrics/Counter.h>
+#include <metrics/Gauge.h>
+#include <metrics/Meter.h>
+#include <metrics/Histogram.h>
+#include <metrics/Timer.h>
+#include <metrics/Registry.h>
 
-namespace cppmetrics {
-
-TEST(RegistryTest, foo)
-{
-  Registry registry;
-
-  registry.histogram("foo");
-
-  EXPECT_EQ(1, registry.get_histograms().size());
-}
-
-}
+#endif

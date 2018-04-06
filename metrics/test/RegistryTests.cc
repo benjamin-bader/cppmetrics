@@ -12,33 +12,19 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#ifndef CPPMETRICS_METRICS_HISTOGRAM_H
-#define CPPMETRICS_METRICS_HISTOGRAM_H
+#include <metrics/Registry.h>
 
-#include <atomic>
-#include <memory>
-
-#include "Reservoir.h"
+#include "gtest/gtest.h"
 
 namespace cppmetrics {
 
-class Snapshot;
-
-class Histogram
+TEST(RegistryTest, foo)
 {
-public:
-  Histogram(std::unique_ptr<Reservoir>&& reservoir);
+  Registry registry;
 
-  void update(long n);
+  registry.histogram("foo");
 
-  long get_count() const;
-  std::shared_ptr<Snapshot> get_snapshot();
-
-private:
-  std::atomic_long m_counter;
-  std::unique_ptr<Reservoir> m_reservoir;
-};
-
+  EXPECT_EQ(1, registry.get_histograms().size());
 }
 
-#endif
+}

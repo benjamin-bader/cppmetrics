@@ -12,14 +12,15 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Timer.h"
+#include <metrics/Timer.h>
 
 #include <chrono>
 
 #include "gtest/gtest.h"
 
-#include "ExponentiallyDecayingReservoir.h"
-#include "Clock.h"
+#include <metrics/ExponentiallyDecayingReservoir.h>
+#include <metrics/Clock.h>
+
 #include "ManualClock.h"
 
 namespace cppmetrics {

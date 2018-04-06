@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "EWMA.h"
+#include <metrics/EWMA.h>
 
 #include <cmath>
 

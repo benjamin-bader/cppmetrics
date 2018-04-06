@@ -12,12 +12,12 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Meter.h"
+#include <metrics/Meter.h>
 
 #include <iostream>
 
-#include "Clock.h"
-#include "EWMA.h"
+#include <metrics/Clock.h>
+#include <metrics/EWMA.h>
 
 namespace cppmetrics {
 

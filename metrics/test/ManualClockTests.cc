@@ -12,31 +12,22 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#ifndef CPPMETRICS_METRICS_MANUALCLOCK_H
-#define CPPMETRICS_METRICS_MANUALCLOCK_H
+#include "ManualClock.h"
 
-#include "Clock.h"
+#include <chrono>
+
+#include "gtest/gtest.h"
 
 namespace cppmetrics {
 
-class ManualClock : public Clock
+TEST(ManualClockTests, equivalent_to_system_clock)
 {
-public:
-  ManualClock(const std::chrono::nanoseconds& now = std::chrono::nanoseconds(0));
+  auto now = std::chrono::system_clock::now();
+  auto now_as_epoch = std::chrono::system_clock::to_time_t(now);
 
-  std::chrono::nanoseconds tick() override;
-  time_t now_as_time_t() override;
+  ManualClock clock{std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch())};
 
-  void add_nanos(long long nanos);
-  void add_millis(int millis);
-  void add_seconds(int seconds);
-  void add_minutes(int minutes);
-  void add_hours(int hours);
-
-private:
-  std::chrono::nanoseconds m_now;
-};
-
+  EXPECT_EQ(now_as_epoch, clock.now_as_time_t());
 }
 
-#endif
+}

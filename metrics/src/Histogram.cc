@@ -12,31 +12,33 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Clock.h"
+#include <metrics/Histogram.h>
+
+#include <utility>
+
+#include <metrics/Snapshot.h>
 
 namespace cppmetrics {
 
-namespace {
+Histogram::Histogram(std::unique_ptr<Reservoir>&& reservoir)
+    : m_counter(0)
+    , m_reservoir(std::move(reservoir))
+{}
 
-Clock* gDefaultClock = new Clock;
-
+void Histogram::update(long n)
+{
+  m_counter += n;
+  m_reservoir->update(n);
 }
 
-std::chrono::nanoseconds Clock::tick()
+long Histogram::get_count() const
 {
-  auto now = std::chrono::system_clock::now();
-  return std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch());
+  return m_counter.load();
 }
 
-time_t Clock::now_as_time_t()
+std::shared_ptr<Snapshot> Histogram::get_snapshot()
 {
-  auto now = std::chrono::system_clock::now();
-  return std::chrono::system_clock::to_time_t(now);
-}
-
-Clock* GetDefaultClock()
-{
-  return gDefaultClock;
+  return m_reservoir->get_snapshot();
 }
 
 }

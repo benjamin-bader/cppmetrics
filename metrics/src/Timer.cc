@@ -12,11 +12,11 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Timer.h"
+#include <metrics/Timer.h>
 
 #include <utility>
 
-#include "ExponentiallyDecayingReservoir.h"
+#include <metrics/ExponentiallyDecayingReservoir.h>
 
 namespace cppmetrics {
 

@@ -12,34 +12,31 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Counter.h"
+#ifndef CPPMETRICS_METRICS_MANUALCLOCK_H
+#define CPPMETRICS_METRICS_MANUALCLOCK_H
 
-#include "gtest/gtest.h"
+#include <metrics/Clock.h>
 
 namespace cppmetrics {
 
-TEST(CounterTests, increments)
+class ManualClock : public Clock
 {
-  Counter ctr;
-  EXPECT_EQ(0, ctr.get_count());
+public:
+  ManualClock(const std::chrono::nanoseconds& now = std::chrono::nanoseconds(0));
 
-  ctr.inc();
-  EXPECT_EQ(1, ctr.get_count());
+  std::chrono::nanoseconds tick() override;
+  time_t now_as_time_t() override;
 
-  ctr.inc(10);
-  EXPECT_EQ(11, ctr.get_count());
-}
+  void add_nanos(long long nanos);
+  void add_millis(int millis);
+  void add_seconds(int seconds);
+  void add_minutes(int minutes);
+  void add_hours(int hours);
 
-TEST(CounterTests, decrements)
-{
-  Counter ctr;
-  EXPECT_EQ(0, ctr.get_count());
-
-  ctr.dec();
-  EXPECT_EQ(-1, ctr.get_count());
-
-  ctr.dec(10);
-  EXPECT_EQ(-11, ctr.get_count());
-}
+private:
+  std::chrono::nanoseconds m_now;
+};
 
 }
+
+#endif

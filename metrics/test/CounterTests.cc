@@ -12,47 +12,34 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#include "Counter.h"
+#include <metrics/Counter.h>
+
+#include "gtest/gtest.h"
 
 namespace cppmetrics {
 
-Counter::Counter()
-    : m_count(0)
-{}
-
-Counter::Counter(const Counter& other)
-    : m_count(other.get_count())
-{}
-
-Counter::Counter(Counter&& other)
-    : m_count(other.m_count.exchange(0))
-{}
-
-Counter& Counter::operator=(const Counter& other)
+TEST(CounterTests, increments)
 {
-  m_count = other.get_count();
-  return *this;
+  Counter ctr;
+  EXPECT_EQ(0, ctr.get_count());
+
+  ctr.inc();
+  EXPECT_EQ(1, ctr.get_count());
+
+  ctr.inc(10);
+  EXPECT_EQ(11, ctr.get_count());
 }
 
-Counter& Counter::operator=(Counter&& other)
+TEST(CounterTests, decrements)
 {
-  m_count = other.m_count.exchange(0);
-  return *this;
-}
+  Counter ctr;
+  EXPECT_EQ(0, ctr.get_count());
 
-void Counter::inc(long n)
-{
-  m_count += n;
-}
+  ctr.dec();
+  EXPECT_EQ(-1, ctr.get_count());
 
-void Counter::dec(long n)
-{
-  m_count -= n;
-}
-
-long Counter::get_count() const noexcept
-{
-  return m_count.load();
+  ctr.dec(10);
+  EXPECT_EQ(-11, ctr.get_count());
 }
 
 }
