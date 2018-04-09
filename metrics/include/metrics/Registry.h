@@ -19,6 +19,7 @@
 #include <memory>
 #include <mutex>
 #include <set>
+#include <shared_mutex>
 #include <string>
 
 namespace cppmetrics {
@@ -52,7 +53,7 @@ private:
       Factory&& factory);
 
 private:
-  std::mutex m_mutex;
+  std::shared_timed_mutex m_mutex;
 
   std::set<std::string> m_names;
   std::map<std::string, std::shared_ptr<Gauge>>     m_gauges;
@@ -68,7 +69,15 @@ std::shared_ptr<T> Registry::get_or_add(
     std::map<std::string, std::shared_ptr<T>>& collection,
     Factory&& factory)
 {
-  std::lock_guard<std::mutex> lock(m_mutex);
+  { // scope for RAII shared-read lock
+    std::shared_lock<std::shared_timed_mutex> read_lock(m_mutex);
+    if (m_names.find(name) != m_names.end())
+    {
+      return collection[name];
+    }
+  }
+
+  std::lock_guard<std::shared_timed_mutex> lock(m_mutex);
   if (m_names.find(name) != m_names.end())
   {
     return collection[name];

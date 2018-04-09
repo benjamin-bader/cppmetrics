@@ -59,31 +59,31 @@ MetricPtr<Timer> Registry::timer(const std::string& name)
 
 MMap<Gauge> Registry::get_gauges()
 {
-  std::lock_guard<std::mutex> lock(m_mutex);
+  std::shared_lock<std::shared_timed_mutex> lock(m_mutex);
   return m_gauges;
 }
 
 MMap<Counter> Registry::get_counters()
 {
-  std::lock_guard<std::mutex> lock(m_mutex);
+  std::shared_lock<std::shared_timed_mutex> lock(m_mutex);
   return m_counters;
 }
 
 MMap<Meter> Registry::get_meters()
 {
-  std::lock_guard<std::mutex> lock(m_mutex);
+  std::shared_lock<std::shared_timed_mutex> lock(m_mutex);
   return m_meters;
 }
 
 MMap<Histogram> Registry::get_histograms()
 {
-  std::lock_guard<std::mutex> lock(m_mutex);
+  std::shared_lock<std::shared_timed_mutex> lock(m_mutex);
   return m_histograms;
 }
 
 MMap<Timer> Registry::get_timers()
 {
-  std::lock_guard<std::mutex> lock(m_mutex);
+  std::shared_lock<std::shared_timed_mutex> lock(m_mutex);
   return m_timers;
 }
 
