@@ -22,7 +22,9 @@ set(METRICS_SOURCES
     src/Gauge.cc
     src/Histogram.cc
     src/Meter.cc
+    src/OStreamReporter.cc
     src/Registry.cc
+    src/ScheduledReporter.cc
     src/Timer.cc
     src/WeightedSnapshot.cc
 )
@@ -100,6 +102,12 @@ cppmetrics_test(
 cppmetrics_test(
   TARGET meter
   SOURCES test/MeterTests.cc ${METRICS_TEST_SOURCES}
+  PUBLIC_LIBRARIES metrics_static
+)
+
+cppmetrics_test(
+  TARGET ostream_reporter
+  SOURCES test/OStreamReporterTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics_static
 )
 

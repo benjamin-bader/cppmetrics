@@ -19,6 +19,7 @@
 #include <metrics/Gauge.h>
 #include <metrics/Meter.h>
 #include <metrics/Histogram.h>
+#include <metrics/Snapshot.h>
 #include <metrics/Timer.h>
 #include <metrics/Registry.h>
 
