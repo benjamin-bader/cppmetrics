@@ -77,7 +77,7 @@ std::shared_ptr<T> Registry::get_or_add(
     }
   }
 
-  std::lock_guard<std::shared_timed_mutex> lock(m_mutex);
+  std::unique_lock<std::shared_timed_mutex> lock(m_mutex);
   if (m_names.find(name) != m_names.end())
   {
     return collection[name];
