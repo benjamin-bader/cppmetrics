@@ -14,8 +14,6 @@
 
 #include <metrics/Meter.h>
 
-#include <iostream>
-
 #include <metrics/Clock.h>
 #include <metrics/EWMA.h>
 
@@ -60,7 +58,6 @@ void Meter::tick_if_necessary()
     if (std::atomic_compare_exchange_strong(&m_last_tick, &old_tick, new_interval_start_tick))
     {
       auto required_ticks = age / kTickInterval;
-      std::cerr << "Advancing meter by " << required_ticks << " ticks" << std::endl;
       for (int i = 0; i < required_ticks; ++i)
       {
         m_m1->tick();
