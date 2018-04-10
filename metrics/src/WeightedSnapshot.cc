@@ -24,12 +24,12 @@ namespace {
 
 inline bool HasEquivalentOrder(double lhs, double rhs)
 {
-  if (isnan(lhs))
+  if (std::isnan(lhs))
   {
-    return isnan(rhs);
+    return std::isnan(rhs);
   }
 
-  return !isnan(rhs) && !(lhs < rhs) && !(rhs < lhs);
+  return !std::isnan(rhs) && !(lhs < rhs) && !(rhs < lhs);
 }
 
 }
@@ -88,7 +88,7 @@ WeightedSnapshot::~WeightedSnapshot() = default;
 
 double WeightedSnapshot::get_value(double quantile) const
 {
-  if (quantile < 0 || quantile > 1.0 || isnan(quantile))
+  if (quantile < 0 || quantile > 1.0 || std::isnan(quantile))
   {
     throw std::domain_error{"Quantile must be between 0.0 and 1.0"};
   }
