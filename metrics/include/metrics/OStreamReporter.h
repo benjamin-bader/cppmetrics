@@ -12,17 +12,32 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#ifndef CPPMETRICS_REPORTER_H
-#define CPPMETRICS_REPORTER_H
+#ifndef CPPMETRICS_METRICS_OSTREAMREPORTER_H
+#define CPPMETRICS_METRICS_OSTREAMREPORTER_H
+
+#include <metrics/Reporter.h>
+
+#include <chrono>
+#include <iosfwd>
+#include <memory>
 
 namespace cppmetrics {
 
-class Reporter
+class Registry;
+
+class OStreamReporter : public Reporter
 {
 public:
-  virtual ~Reporter() {}
+  OStreamReporter(std::ostream& output, const std::shared_ptr<Registry>& registry);
+  OStreamReporter(OStreamReporter&&);
 
-  virtual void report() = 0;
+  virtual ~OStreamReporter();
+
+  void report() override;
+
+private:
+  std::ostream& m_output;
+  std::shared_ptr<Registry> m_registry;
 };
 
 }
