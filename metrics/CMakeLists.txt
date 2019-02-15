@@ -15,12 +15,14 @@
 project(metrics VERSION 0.1 LANGUAGES CXX)
 
 set(METRICS_SOURCES
+    src/AlignedAllocations.cc
     src/Clock.cc
     src/Counter.cc
     src/ExponentiallyDecayingReservoir.cc
     src/EWMA.cc
     src/Gauge.cc
     src/Histogram.cc
+    src/LongAdder.cc
     src/Meter.cc
     src/OStreamReporter.cc
     src/Registry.cc
@@ -128,3 +130,13 @@ cppmetrics_test(
   SOURCES test/TimerTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics_static
 )
+
+cppmetrics_test(
+  TARGET long_adder
+  SOURCES test/LongAdderTests.cc ${METRICS_TEST_SOURCES}
+  PUBLIC_LIBRARIES metrics_static
+)
+
+add_executable(long_adder_bench test/LongAdderTests.cc)
+target_link_libraries(long_adder_bench metrics_static)
+set_target_properties(long_adder_bench PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DBENCH=1")

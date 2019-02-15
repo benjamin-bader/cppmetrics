@@ -1,4 +1,4 @@
-//  Copyright 2018 Benjamin Bader
+//  Copyright 2019 Benjamin Bader
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -12,35 +12,27 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#ifndef CPPMETRICS_METRICS_COUNTER_H
-#define CPPMETRICS_METRICS_COUNTER_H
+// Implements a variant of aligned_alloc from c++17,
+// using platform-specific mechanisms.
 
-#include <cstdint>
-#include <metrics/LongAdder.h>
+#ifndef CPPMETRICS_METRICS_ALIGNEDALLOCATIONS_H
+#define CPPMETRICS_METRICS_ALIGNEDALLOCATIONS_H
 
-namespace cppmetrics {
+#include <cstddef>
+#include <utility>
 
-class Counter
+namespace cppmetrics { namespace AlignedAllocations {
+
+void* Allocate(std::size_t sz, std::size_t align);
+void Free(void* ptr);
+
+template <typename T, std::size_t A = alignof(T), typename ...Args>
+T* Make(Args&& ...args)
 {
-public:
-  using value_t = std::int64_t;
+  void* ptr = Allocate(sizeof(T), A);
+  return new (ptr) T(std::forward<Args>(args)...);
+}
 
-  Counter();
-  Counter(const Counter&);
-  Counter(Counter&&);
-
-  Counter& operator=(const Counter&);
-  Counter& operator=(Counter&&);
-
-  void inc(value_t n = 1);
-  void dec(value_t n = 1);
-
-  LongAdder::value_t get_count() const noexcept;
-
-private:
-  LongAdder m_adder;
-};
-
-} // namespace cppmetrics
+}}
 
 #endif

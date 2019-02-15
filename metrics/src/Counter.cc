@@ -17,42 +17,50 @@
 namespace cppmetrics {
 
 Counter::Counter()
-    : m_count(0)
+    : m_adder()
 {}
 
 Counter::Counter(const Counter& other)
-    : m_count(other.get_count())
-{}
+    : m_adder()
+{
+  m_adder.incr(other.get_count());
+}
 
 Counter::Counter(Counter&& other)
-    : m_count(other.m_count.exchange(0))
-{}
+    : m_adder()
+{
+  m_adder.incr(other.m_adder.count());
+  other.m_adder.decr(other.m_adder.count());
+}
 
 Counter& Counter::operator=(const Counter& other)
 {
-  m_count = other.get_count();
+  m_adder.decr(m_adder.count());
+  m_adder.incr(other.get_count());
   return *this;
 }
 
 Counter& Counter::operator=(Counter&& other)
 {
-  m_count = other.m_count.exchange(0);
+  m_adder.decr(m_adder.count());
+  m_adder.incr(other.m_adder.count());
+  other.m_adder.decr(m_adder.count());
   return *this;
 }
 
-void Counter::inc(long n)
+void Counter::inc(value_t n)
 {
-  m_count += n;
+  m_adder.incr(n);
 }
 
-void Counter::dec(long n)
+void Counter::dec(value_t n)
 {
-  m_count -= n;
+  m_adder.decr(n);
 }
 
-long Counter::get_count() const noexcept
+Counter::value_t Counter::get_count() const noexcept
 {
-  return m_count.load();
+  return m_adder.count();
 }
 
 }
