@@ -14,6 +14,9 @@
 
 project(metrics VERSION 0.1 LANGUAGES CXX)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 set(METRICS_SOURCES
     src/AlignedAllocations.cc
     src/Clock.cc
@@ -54,6 +57,9 @@ target_include_directories(metrics_static
   PRIVATE
   src
 )
+
+target_link_libraries(metrics Threads::Threads)
+target_link_libraries(metrics_static Threads::Threads)
 
 set(METRICS_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
 set(METRICS_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX}/bin)

@@ -16,7 +16,7 @@
 
 #include <new>
 
-#if defined(WIN32)
+#if defined(_WIN32)
 
 #include <malloc.h>
 

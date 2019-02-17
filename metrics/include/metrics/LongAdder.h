@@ -16,6 +16,7 @@
 #define CPPMETRICS_METRICS_LONGADDER_H
 
 #include <atomic>
+#include <cstdint>
 #include <vector>
 
 namespace cppmetrics {
