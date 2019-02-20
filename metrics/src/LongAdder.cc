@@ -65,14 +65,62 @@ private:
   std::atomic_bool& m_lock;
 };
 
-constexpr std::size_t next_power_of_two(std::size_t n)
+template <typename T>
+constexpr
+inline
+std::enable_if_t<(sizeof(T) == 1) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
+next_power_of_two(T n) noexcept
 {
-  std::size_t result = 1;
-  while (result <= n)
-  {
-    result <<= 1;
-  }
-  return result;
+  T result = n - 1;
+  result |= result >> 1;
+  result |= result >> 2;
+  result |= result >> 4;
+  return result + 1;
+}
+
+template <typename T>
+constexpr
+inline
+std::enable_if_t<(sizeof(T) == 2) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
+next_power_of_two(T n) noexcept
+{
+  T result = n - 1;
+  result |= result >> 1;
+  result |= result >> 2;
+  result |= result >> 4;
+  result |= result >> 8;
+  return result + 1;
+}
+
+template <typename T>
+constexpr
+inline
+std::enable_if_t<(sizeof(T) == 4) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
+next_power_of_two(T n) noexcept
+{
+  T result = n - 1;
+  result |= result >> 1;
+  result |= result >> 2;
+  result |= result >> 4;
+  result |= result >> 8;
+  result |= result >> 16;
+  return result + 1;
+}
+
+template <typename T>
+constexpr
+inline
+std::enable_if_t<(sizeof(T) == 8) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
+next_power_of_two(T n) noexcept
+{
+  T result = n - 1;
+  result |= result >> 1;
+  result |= result >> 2;
+  result |= result >> 4;
+  result |= result >> 8;
+  result |= result >> 16;
+  result |= result >> 32;
+  return result + 1;
 }
 
 } // namespace
@@ -126,7 +174,7 @@ LongAdder::~LongAdder()
   {
     if (pCell != nullptr)
     {
-      AlignedAllocations::Free(pCell);
+      AlignedAllocations::Destroy(pCell);
     }
   }
 }
@@ -167,7 +215,7 @@ void LongAdder::modify(value_t n)
     std::size_t index = h & mask;
     Cell* cell = m_cells[index];
 
-    if ((cell = m_cells[index]) == nullptr)
+    if (cell == nullptr)
     {
       if (!is_locked())
       {
@@ -189,12 +237,12 @@ void LongAdder::modify(value_t n)
           }
           else
           {
-            AlignedAllocations::Free(cell);
+            AlignedAllocations::Destroy(cell);
             continue;
           }
         }
 
-        AlignedAllocations::Free(cell);
+        AlignedAllocations::Destroy(cell);
       }
       collide = false;
     }

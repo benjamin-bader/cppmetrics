@@ -33,6 +33,13 @@ T* Make(Args&& ...args)
   return new (ptr) T(std::forward<Args>(args)...);
 }
 
+template <typename T>
+void Destroy(T* alignedElement)
+{
+  alignedElement->~T();
+  Free(reinterpret_cast<void*>(alignedElement));
+}
+
 }}
 
 #endif

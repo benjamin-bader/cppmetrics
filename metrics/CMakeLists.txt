@@ -143,6 +143,8 @@ cppmetrics_test(
   PUBLIC_LIBRARIES metrics_static
 )
 
-add_executable(long_adder_bench test/LongAdderTests.cc)
-target_link_libraries(long_adder_bench metrics_static)
-set_target_properties(long_adder_bench PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DBENCH=1")
+if(BUILD_TESTS)
+  add_executable(long_adder_bench test/LongAdderTests.cc)
+  target_link_libraries(long_adder_bench metrics_static)
+  set_target_properties(long_adder_bench PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DBENCH=1")
+endif()

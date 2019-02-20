@@ -50,7 +50,6 @@ public:
   value_t count() const noexcept;
 
 private:
-  //void modify(std::function<std::size_t(std::size_t)>&& fn);
   void modify(value_t n);
 
   bool is_locked();
