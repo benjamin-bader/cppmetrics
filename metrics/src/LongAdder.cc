@@ -65,62 +65,17 @@ private:
   std::atomic_bool& m_lock;
 };
 
-template <typename T>
 constexpr
 inline
-std::enable_if_t<(sizeof(T) == 1) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
-next_power_of_two(T n) noexcept
+std::size_t
+next_power_of_two(std::size_t n) noexcept
 {
-  T result = n - 1;
-  result |= result >> 1;
-  result |= result >> 2;
-  result |= result >> 4;
-  return result + 1;
-}
-
-template <typename T>
-constexpr
-inline
-std::enable_if_t<(sizeof(T) == 2) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
-next_power_of_two(T n) noexcept
-{
-  T result = n - 1;
-  result |= result >> 1;
-  result |= result >> 2;
-  result |= result >> 4;
-  result |= result >> 8;
-  return result + 1;
-}
-
-template <typename T>
-constexpr
-inline
-std::enable_if_t<(sizeof(T) == 4) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
-next_power_of_two(T n) noexcept
-{
-  T result = n - 1;
-  result |= result >> 1;
-  result |= result >> 2;
-  result |= result >> 4;
-  result |= result >> 8;
-  result |= result >> 16;
-  return result + 1;
-}
-
-template <typename T>
-constexpr
-inline
-std::enable_if_t<(sizeof(T) == 8) && std::is_integral<T>{} && std::is_unsigned<T>{}, T>
-next_power_of_two(T n) noexcept
-{
-  T result = n - 1;
-  result |= result >> 1;
-  result |= result >> 2;
-  result |= result >> 4;
-  result |= result >> 8;
-  result |= result >> 16;
-  result |= result >> 32;
-  return result + 1;
+  std::size_t result = 1;
+  while (result < n)
+  {
+    result <<= 1;
+  }
+  return result;
 }
 
 } // namespace
