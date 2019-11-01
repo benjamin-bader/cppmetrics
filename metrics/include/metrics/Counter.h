@@ -15,13 +15,16 @@
 #ifndef CPPMETRICS_METRICS_COUNTER_H
 #define CPPMETRICS_METRICS_COUNTER_H
 
-#include <atomic>
+#include <cstdint>
+#include <metrics/LongAdder.h>
 
 namespace cppmetrics {
 
 class Counter
 {
 public:
+  using value_t = std::int64_t;
+
   Counter();
   Counter(const Counter&);
   Counter(Counter&&);
@@ -29,13 +32,13 @@ public:
   Counter& operator=(const Counter&);
   Counter& operator=(Counter&&);
 
-  void inc(long n = 1);
-  void dec(long n = 1);
+  void inc(value_t n = 1);
+  void dec(value_t n = 1);
 
-  long get_count() const noexcept;
+  LongAdder::value_t get_count() const noexcept;
 
 private:
-  std::atomic_long m_count;
+  LongAdder m_adder;
 };
 
 } // namespace cppmetrics

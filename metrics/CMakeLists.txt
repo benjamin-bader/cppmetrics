@@ -14,13 +14,18 @@
 
 project(metrics VERSION 0.1 LANGUAGES CXX)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 set(METRICS_SOURCES
+    src/AlignedAllocations.cc
     src/Clock.cc
     src/Counter.cc
     src/ExponentiallyDecayingReservoir.cc
     src/EWMA.cc
     src/Gauge.cc
     src/Histogram.cc
+    src/LongAdder.cc
     src/Meter.cc
     src/OStreamReporter.cc
     src/Registry.cc
@@ -52,6 +57,9 @@ target_include_directories(metrics_static
   PRIVATE
   src
 )
+
+target_link_libraries(metrics Threads::Threads)
+target_link_libraries(metrics_static Threads::Threads)
 
 set(METRICS_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
 set(METRICS_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX}/bin)
@@ -128,3 +136,15 @@ cppmetrics_test(
   SOURCES test/TimerTests.cc ${METRICS_TEST_SOURCES}
   PUBLIC_LIBRARIES metrics_static
 )
+
+cppmetrics_test(
+  TARGET long_adder
+  SOURCES test/LongAdderTests.cc ${METRICS_TEST_SOURCES}
+  PUBLIC_LIBRARIES metrics_static
+)
+
+if(BUILD_TESTS)
+  add_executable(long_adder_bench test/LongAdderTests.cc)
+  target_link_libraries(long_adder_bench metrics_static)
+  set_target_properties(long_adder_bench PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DBENCH=1")
+endif()
