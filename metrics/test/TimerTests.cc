@@ -75,7 +75,7 @@ TEST(TimerTests, times_callables)
   ManualClock clock;
   Timer timer(std::make_unique<ExponentiallyDecayingReservoir>(), &clock);
 
-  std::string result = timer.time([&]() {
+  std::string result = timed(timer, [&]() {
     clock.add_minutes(1);
     return "foo";
   });
@@ -89,11 +89,12 @@ TEST(TimerTests, times_runnables)
   ManualClock clock;
   Timer timer(std::make_unique<ExponentiallyDecayingReservoir>(), &clock);
 
-  timer.time([&]() {
+  timed(timer, [&]() {
     clock.add_minutes(1);
   });
 
   EXPECT_EQ(1, timer.get_count());
+  EXPECT_GT(timer.get_snapshot()->get_mean(), 0.0);
 }
 
 }

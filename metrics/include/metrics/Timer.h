@@ -35,9 +35,6 @@ public:
   Timer(std::unique_ptr<Reservoir>&& reservoir, Clock* clock);
   Timer(Timer&&) = default;
 
-  template <typename Function>
-  auto time(Function&& fn) -> decltype(fn());
-
   void update(const std::chrono::nanoseconds& nanos);
   void update(const std::chrono::milliseconds& millis);
 
@@ -77,9 +74,9 @@ private:
 };
 
 template <typename Function>
-auto Timer::time(Function&& fn) -> decltype(fn())
+auto timed(Timer& timer, Function&& fn) -> decltype(fn())
 {
-  ScopeTimer(*this);
+  ScopeTimer scopeTimer(timer);
   return fn();
 }
 
